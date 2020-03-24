@@ -1,9 +1,8 @@
+const User = require('../models/Users')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
-const User = require('../models/Users')
-
-process.env.SECRET_KEY = 'secret'
+process.env.SECRET_KEY = 'DAJG_BMO_102107'
 
 const ctrl = {}
 
@@ -15,87 +14,76 @@ ctrl.remove = (req, res) => {
     res.send('remove')
 }
 
-ctrl.register = (req, res) => {
-    const today = new Date()
-    const userData = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        password: req.body.password,
-        created: today
-    }
-    console.log(userData)
+ctrl.register = async (req, res) => {
+    const { name, email, password, comfirmPassword } = req.body
+    
+    const user = await User.findOne({email : email})
 
-    User.findOne({
-        email: req.body.email
-    })
-    .then(user => {
-        if(!user) {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                userData.password = hash
-                User.create(userData)
-                .then(user => {
-                    res.json({status: user.email + ' Registered!'})
-                })
-                .catch(err => {
-                    res.send('Error: ' + err)
-                })
-            })
-        } else {
-            res.json({error: 'User already exists'})
-        }
-    })
-    .catch(err => {
-        res.send('error: ' + err)
-    })
+    if(user) {
+        return res.json({msg: 'El nombre de usuario ya existe.'})
+    } else if (password != comfirmPassword) {
+        return res.json({msg: 'Las contraseña no coinciden.'} )
+    } else if (password.length < 6) {
+        return res.json({msg: 'La contraseña debe ser mayor a 6 caracteres.'})
+    } else {
+        const user = new User()
+        user.email = email
+        user.password = await user.encryptPassword(password)
+        user.name = name
+        await user.save()
+        res.json({msg: 'Nuevo usuario agregado.'})
+    }
 }
 
-ctrl.login = (req, res) => {
-    User.findOne({
-        email: req.body.email
+ctrl.login = async (req, res) => {
+    const { email, password } = req.body
+    const user = await User.findOne({
+        email: email
     })
-    .then(user => {
-        if(user){
-            if(bcrypt.compareSync(req.body.password, user.password)) {
-                const payload = {
-                    _id: user._id,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email
-                }
-                let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                    expiresIn: 1440
-                })
-                res.send(token)
-            } else {
-                res.json({error: 'User does not exist'})
+    if(user) {
+        if(bcrypt.compareSync(req.body.password, user.password)) {
+            const payload = {
+                _id: user._id,
+                name: user.name,
+                email: user.email
             }
+            let token = jwt.sign(payload, process.env.SECRET_KEY, {
+                expiresIn: 60 * 60 * 24
+            })
+            res.json({msg: 'autheticated.', token})
         } else {
-            res.json({error: 'User does not exist'})
+            return res.json({msg: 'Contraseña incorrecta.'})
         }
-    })
-    .catch(err => {
-        res.send('error: ' + err)
-    })
+    } else {
+        return res.json({msg: 'El nombre de usuario no existe.'})
+    }
+    /* .then(user => {
+        if(user.comparePassword(password)) {
+            const payload = {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+            let token = jwt.sign(payload, process.env.SECRET_KEY, {
+                expiresIn: 60 * 60 * 24
+            })
+            res.json({token})
+        } else {
+            return res.json({msg: 'Contraseña incorrecta.'})
+        }
+    }) */
+}
+
+ctrl.logout = (req, res) => {
+
 }
 
 ctrl.profile = (req, res) => {
-    const decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    res.json({ msg: 'profile' })
+}
 
-    User.findOne({
-        _id: decoded._id
-    })
-    .then(user => {
-        if(user) {
-            res.json(user)
-        } else {
-    router.post('/register', Private.register)
-            res.send('User does not exist')
-        }
-    })
-    .catch(err => {
-        res.send('error: ' + err)
-    })
+ctrl.logic = (req, res) => {
+
 }
 
 module.exports = ctrl

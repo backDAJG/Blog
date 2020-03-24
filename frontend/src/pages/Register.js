@@ -8,10 +8,10 @@ export default class Register extends Component {
     constructor() {
         super()
         this.state = {
-            first_name: '',
-            last_name: '',
             email: '',
-            password: ''
+            password: '',
+            name: '',
+            comfirmPassword: ''
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -23,16 +23,26 @@ export default class Register extends Component {
 
     onSubmit(e) {
         e.preventDefault()
-
         const User = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
             email: this.state.email,
-            password: this.state.password
-        }
+            password: this.state.password,
+            name: this.state.name,
+            comfirmPassword: this.state.comfirmPassword
 
+        }
         register(User).then(res => {
-            this.props.history.push(`/login`)
+            if(res === 'Nuevo usuario agregado.') {
+                this.props.history.push(`/login`)
+            } else if(res === 'Las contraseña no coinciden.' || res === 'La contraseña debe ser mayor a 6 caracteres.') {
+                this.setState({
+                    password: '',
+                    comfirmPassword: ''
+                })
+            } else if (res === 'El nombre de usuario ya existe.') {
+                this.setState({
+                    email: ''
+                })
+            }
         })
 
     }
@@ -44,9 +54,6 @@ export default class Register extends Component {
             <div className="move">
                 <BarraLateral />
                 <div className="main-wrapper">
-                    <div className="pen-title">
-                        <h1>Register Form</h1>
-                    </div>
                     <div className="container">
                         <div className="card"></div>
                         <div className="card">
@@ -59,27 +66,13 @@ export default class Register extends Component {
                                         type="text"
                                         id="#{label}"
                                         required="required"
-                                        name="first_name"
-                                        value={this.state.first_name}
+                                        name="name"
+                                        value={this.state.namel}
                                         onChange={this.onChange}
+                                        autoComplete="off"
                                     />
 
-                                    <label htmlFor="#{label}">First Name</label>
-                                    <div className="bar"></div>
-                                </div>
-
-                                <div className="input-container">
-
-                                    <input 
-                                    type="text" 
-                                    id="#{label}" 
-                                    required="required" 
-                                    name="last_name"
-                                    value={this.state.last_name}
-                                    onChange={this.onChange}
-                                    />
-
-                                    <label htmlFor="#{label}">Last Name</label>
+                                    <label htmlFor="#{label}">name</label>
                                     <div className="bar"></div>
                                 </div>
 
@@ -92,11 +85,13 @@ export default class Register extends Component {
                                         name="email"
                                         value={this.state.email}
                                         onChange={this.onChange}
+                                        autoComplete="off"
                                     />
 
                                     <label htmlFor="#{label}">Username</label>
                                     <div className="bar"></div>
                                 </div>
+
                                 <div className="input-container">
 
                                     <input
@@ -110,6 +105,21 @@ export default class Register extends Component {
                                     <label htmlFor="#{label}">Password</label>
                                     <div className="bar"></div>
                                 </div>
+
+                                <div className="input-container">
+
+                                    <input
+                                        type="password"
+                                        id="#{label}"
+                                        required="required"
+                                        name="comfirmPassword"
+                                        value={this.state.comfirmPassword}
+                                        onChange={this.onChange}
+                                    />
+                                    <label htmlFor="#{label}">Comfirm password</label>
+                                    <div className="bar"></div>
+                                </div>
+
                                 <div className="button-container" style={{ "marginBottom": "50px" }}>
                                     <button className="btn-go"><span>Go</span></button>
                                 </div>

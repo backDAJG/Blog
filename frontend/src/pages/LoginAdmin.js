@@ -27,9 +27,18 @@ export default class LoginAdmin extends Component {
             password: this.state.password
         }
 
-        login(User).then(res => {
-            if(res) {
+        login(User)
+        .then(res => {
+            if(res.token) {
                 this.props.history.push(`/profile`)
+            } else if(res === 'Contraseña incorrecta.') {
+                this.setState({
+                    password: ''
+                })
+            } else if(res === 'El nombre de usuario no existe.') {
+                this.setState({
+                    email: ''
+                })
             }
         })
 
@@ -59,6 +68,7 @@ export default class LoginAdmin extends Component {
                                     name="email"
                                     value={this.state.email}
                                     onChange={this.onChange}
+                                    autoComplete="off"
                                     />
 
                                     <label htmlFor="#{label}">Username</label>

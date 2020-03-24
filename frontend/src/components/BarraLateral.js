@@ -1,40 +1,80 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { NavLink, withRouter, Link } from 'react-router-dom'
 import BMO from '../images/BMO.jpg'
 
 class BarraLateral extends Component {
 
-    logOut(e) {
-        e.preventDefault()
-        localStorage.removeItem('usertoken')
-        this.props.history.push('/')
-    }
+
 
     render() {
 
         const loginRegLink = (
             <ul className="navbar-nav flex-column text-left">
-                <li className="nav-item active">
-                    <Link className="nav-link" to="/"><i className="fas fa-home fa-fw mr-2"></i>Blog Home <span className="sr-only">(current)</span></Link>
+                <li className="nav-item">
+                    <NavLink
+                        activeStyle={{
+                            'color': 'rgba(0,0,0,0.5)'
+                        }}
+                        className="nav-link"
+                        to="/home"
+                    >
+                        <i className="fas fa-home fa-fw mr-2"></i>Blog Home</NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/ViewPost"><i className="fas fa-bookmark fa-fw mr-2"></i>Blog Post</Link>
+                    <NavLink
+                        activeStyle={{
+                            'color': 'rgba(0,0,0,0.5)'
+                        }}
+                        className="nav-link"
+                        to="/ViewPost"
+                    >
+                        <i className="fas fa-bookmark fa-fw mr-2"></i>Blog Post</NavLink>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/login"><i className="fas fa-user fa-fw mr-2"></i>Admin</Link>
+                    <NavLink
+                        activeStyle={{
+                            'color': 'rgba(0,0,0,0.5)'
+                        }}
+                        className="nav-link"
+                        to="/login"
+                    >
+                        <i className="fas fa-user fa-fw mr-2"></i>Admin</NavLink>
                 </li>
             </ul>
         )
         const userLink = (
             <ul className="navbar-nav flex-column text-left">
-                <li className="nav-item active">
-                    <Link className="nav-link" to="/profile"><i className="fas fa-home fa-fw mr-2"></i>profile <span className="sr-only">(current)</span></Link>
-                </li>
-                <li>
-                    <Link className="nav-link" to="" onClick={this.logOut.bind(this)}><i className="fas fa-home fa-fw mr-2"></i>logout <span className="sr-only">(current)</span></Link>
+                <li className="nav-item">
+
+                    <NavLink 
+                    activeStyle={{
+                        'color': 'rgba(0,0,0,0.5)'
+                    }} 
+                    className="nav-link" 
+                    to="/profile"
+                    >
+                        <i className="fas fa-home fa-fw mr-2"></i>profile</NavLink>
+
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/register"><i className="fas fa-user fa-fw mr-2"></i>Register</Link>
+                    <NavLink 
+                    activeStyle={{
+                        'color': 'rgba(0,0,0,0.5)'
+                    }} 
+                    className="nav-link" 
+                    to="/logout"
+                    >
+                        <i className="fas fa-home fa-fw mr-2"></i>logout</NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink 
+                    activeStyle={{
+                        'color': 'rgba(0,0,0,0.5)'
+                    }} 
+                    className="nav-link" 
+                    to="/register"
+                    >
+                        <i className="fas fa-user fa-fw mr-2"></i>Register</NavLink>
                 </li>
             </ul>
         )

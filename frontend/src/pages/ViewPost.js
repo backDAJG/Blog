@@ -29,81 +29,81 @@ export default class ListPost extends Component {
 
                         </div>
                     </article>
-                    <ul class="nav container d-flex justify-content-around">
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-outline-secondary"><i className="far fa-thumbs-up"></i> likes <span class="badge badge-primary">2</span></button>
+                    <ul className="nav container d-flex justify-content-around">
+                        <li className="nav-item">
+                            <button type="button" className="btn btn-outline-secondary"><i className="far fa-thumbs-up"></i> likes <span className="badge badge-primary">2</span></button>
                         </li>
-                        <li class="nav-item">
-                            <div type="button" class="btn btn-outline-secondary"><i className="far fa-eye"></i> views <span class="badge badge-primary">2</span></div>
+                        <li className="nav-item">
+                            <div type="button" className="btn btn-outline-secondary"><i className="far fa-eye"></i> views <span className="badge badge-primary">2</span></div>
                         </li>
-                        <li class="nav-item">
-                            <div type="button" class="btn btn-outline-secondary"><i class="far fa-comments"></i> comments <span class="badge badge-primary">2</span></div>
+                        <li className="nav-item">
+                            <div type="button" className="btn btn-outline-secondary"><i className="far fa-comments"></i> comments <span className="badge badge-primary">2</span></div>
                         </li>
                     </ul>
 
-                    <div class="comments-app" ng-app="commentsApp" ng-controller="CommentsController as cmntCtrl">
+                    <div className="comments-app" ng-app="commentsApp" ng-controller="CommentsController as cmntCtrl">
 
 
-                        <div class="comment-form">
+                        <div className="comment-form">
 
-                            <div class="comment-avatar">
+                            <div className="comment-avatar">
                                 <img src={BMO} alt="post" />
                             </div>
 
-                            <form class="form">
-                                <div class="form-row">
-                                    <textarea class="form-control mr-md-1 semail" placeholder="Add comment..." required style={{ "resize": "none" }}></textarea>
+                            <form className="form">
+                                <div className="form-row">
+                                    <textarea className="form-control mr-md-1 semail" placeholder="Add comment..." required style={{ "resize": "none" }}></textarea>
                                 </div>
 
-                                <div class="form-row">
-                                    <input class="form-control mr-md-1 semail" placeholder="Email" type="email" />
+                                <div className="form-row">
+                                    <input className="form-control mr-md-1 semail" placeholder="Email" type="email" />
                                 </div>
 
-                                <div class="form-row">
+                                <div className="form-row">
                                     <input type="submit" value="Add Comment" />
                                 </div>
                             </form>
                         </div>
 
 
-                        <div class="comments">
+                        <div className="comments">
 
-                            <div class="comment">
-                                <div class="comment-avatar">
+                            <div className="comment">
+                                <div className="comment-avatar">
                                     <img src={BMO} alt="post" />
                                 </div>
-                                <div class="comment-box">
-                                    <div class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste
+                                <div className="comment-box">
+                                    <div className="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste
           nostrum dolorem natus recusandae incidunt voluptatum.</div>
-                                    <div class="comment-footer">
-                                        <div class="comment-info">
-                                            <span class="comment-author">
+                                    <div className="comment-footer">
+                                        <div className="comment-info">
+                                            <span className="comment-author">
                                                 <span>Sexar</span>
                                             </span>
-                                            <span class="comment-date">Feb 2, 2013 11:32:04 PM</span>
+                                            <span className="comment-date">Feb 2, 2013 11:32:04 PM</span>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="comment">
-                                <div class="comment-avatar">
+                            <div className="comment">
+                                <div className="comment-avatar">
                                     <img src={BMO} alt="post" />
                                 </div>
-                                <div class="comment-box">
-                                    <div class="comment-text">Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis
+                                <div className="comment-box">
+                                    <div className="comment-text">Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis
                                       totam reprehenderit quasi sapiente modi tempora at perspiciatis mollitia, dolores voluptate. Cumque, corrupti?
         </div>
-                                    <div class="comment-footer">
-                                        <div class="comment-info">
-                                            <span class="comment-author">
+                                    <div className="comment-footer">
+                                        <div className="comment-info">
+                                            <span className="comment-author">
                                                 <span>Ximme</span>
                                             </span>
-                                            <span class="comment-date">Jan 31, 1986 11:32:04 PM</span>
+                                            <span className="comment-date">Jan 31, 1986 11:32:04 PM</span>
                                         </div>
 
-                                    </div>
+                                    </div>  
                                 </div>
                             </div>
                         </div>

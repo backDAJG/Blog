@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import jwt_decode from 'jwt-decode'
 import BarraLateral from '../components/BarraLateral'
+import multer from 'multer'
 
 export default class Profile extends Component {
 

@@ -4,6 +4,11 @@ const express = require('express')
 const path = require('path')
 const socketio = require('socket.io')
 const http = require('http')
+const passport = require('passport')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const flash = require('connect-flash')
+
 
 const appio = express()
 
@@ -11,6 +16,8 @@ const server = http.createServer(appio)
 const io = socketio(server)
 
 const routes = require('../routes/index')
+
+
 
 module.exports= app => {
 
@@ -21,8 +28,38 @@ module.exports= app => {
     //funciones
     app.use(morgan('dev'))
     app.use(cors())
-    app.use(express.urlencoded({extended: false}))
     app.use(express.json())
+    app.use(cookieParser())
+    app.use(session({
+        secret: 'DAJG',
+        resave: false,
+        saveUninitialized: false
+    }))
+    app.use(flash())
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+    //variables globales
+
+    app.use((req, res, next) => {
+        res.locals.signupMessage = req.flash('signupMessage')
+        /* const username = app.locals.signupMessageUsername = req.flash('signupMessageUsername')
+        const characterPassword = app.locals.signupMessageCharacterPassword = req.flash('signupMessageCharacterPassword')
+
+        if( app.locals.signupMessageUsername === 'el nombre de usuario ya existe') {
+           return res.json({msg: 'el nombre de usuario ya existe'})
+        } else {
+
+        } */
+
+        next()
+    })
+
+    //rutas
+    routes(app, passport)
+
+    
+
 
     //sockets
 
@@ -33,13 +70,15 @@ module.exports= app => {
             console.log('User had left.')
         })
     })
+
     
-    //rutas
-    routes(app)
+    
 
     //archivos estaticos (opcional no necesario en un RESTAPI)
     app.use('/public', express.static(path.join(__dirname, '../public')))
 
+
+    
 
     return(app)
 }

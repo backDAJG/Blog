@@ -4,7 +4,7 @@ const router = express.Router()
 const Public = require('../controllers/Public')
 const Private = require('../controllers/Private')
 
-module.exports = app => {
+module.exports = (app, passport) => {
 
     //Rutas Publicas
 
@@ -15,11 +15,11 @@ module.exports = app => {
 
     //Rutas Privadas
 
+    router.post('/logout', Private.logout)
     router.post('/images', Private.create)
     router.delete('/images/:image_id', Private.remove)
     router.post('/register', Private.register)
     router.post('/login', Private.login)
-    router.get('/profile', Private.profile)
 
     app.use(router)
 }
